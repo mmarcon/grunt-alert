@@ -46,7 +46,7 @@ function injectAlertHook(grunt) {
         fatal.call(ctx, error, errorcode);
     };
 
-    grunt.fail.warn = grunt.warn =function(error, errorcode){
+    grunt.fail.warn = grunt.warn = function(error, errorcode){
         var ctx = this, child;
 
         child = grunt.util.spawn(spawnConfig('warn', error, errorcode));
