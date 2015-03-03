@@ -64,4 +64,14 @@ module.exports = function(grunt) {
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
 
+    grunt.registerTask('warn', 'tests warn failure', function(){
+        grunt.warn('this task has failed with a warning');
+    });
+
+    grunt.registerTask('fatal', 'tests fatal failure', function(){
+        grunt.fatal('this task has failed with a warning');
+    });
+
+    grunt.registerTask('catchwarn', ['alert.hook', 'warn']);
+    grunt.registerTask('catchfatal', ['alert.hook', 'fatal']);
 };
