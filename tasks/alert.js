@@ -9,10 +9,11 @@
 'use strict';
 
 var request = require('request'),
-    util = require('util'),
-    alertSlack = require('../lib/alertslack')(request);
+    util = require('util');
 
-var supportedTypes = /slack/;
+var alertProviders = {};
+
+alertProviders.slack = require('../lib/alertslack')(request);
 
 function spawnConfig(fail, error, errorcode) {
     return {
@@ -26,7 +27,7 @@ function spawnConfig(fail, error, errorcode) {
         fallback: 0,
         opts: {
             detached: true,
-            stdio: ['ignore', 'ignore', 'ignore']
+            stdio: [0, 1, 2]
         }
     };
 }
@@ -87,15 +88,12 @@ module.exports = function(grunt) {
         config.message = util.format(config.message, grunt.option('arg') || grunt.option('error') || '');
 
         //Now, let's check if we support that platform
-        if(!supportedTypes.test(config.type)) {
+        if(typeof alertProviders[config.type] !== 'function') {
             grunt.log.error('The platform ' + config.type + ' is not supported');
             return done();
         }
 
-        switch(config.type) {
-            case 'slack':
-                return alertSlack(config, grunt, done);
-        }
+        alertProviders[config.type](config, grunt, done);
     });
 
 };
