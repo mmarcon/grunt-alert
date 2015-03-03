@@ -16,19 +16,14 @@ module.exports = function(grunt) {
             all: [
                 'Gruntfile.js',
                 'tasks/*.js',
-                '<%= nodeunit.tests %>'
+                'tests/*.js'
             ],
             options: {
                 jshintrc: '.jshintrc'
             }
         },
 
-        // Before generating any new files, remove any previously-created files.
-        clean: {
-            tests: ['tmp']
-        },
-
-        // Configuration to be run (and then tested).
+        // Example configuration
         alert: {
             slack: {
                 type: 'slack',
@@ -39,11 +34,6 @@ module.exports = function(grunt) {
                 iconEmoji: ':ghost:',
                 message: 'Ya\'ll suck. The build just failed with this error: %s'
             }
-        },
-
-        // Unit tests.
-        nodeunit: {
-            tests: ['test/*_test.js']
         }
 
     });
@@ -53,10 +43,19 @@ module.exports = function(grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-    grunt.registerTask('test', ['clean']);
+    grunt.registerTask('test', 'runs tests with tape', function(){
+        var done = this.async();
+        var runner = grunt.util.spawn({
+            cmd: './node_modules/.bin/tape',
+            args: ['./tests/*_test.js']
+        }, function(error, result, code){
+            done(code === 0);
+        });
+
+        runner.stderr.pipe(process.stderr, { end: false });
+        runner.stdout.pipe(require('faucet')()).pipe(process.stdout, { end: false });
+    });
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
