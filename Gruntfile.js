@@ -33,6 +33,14 @@ module.exports = function(grunt) {
                 iconUrl: '',
                 iconEmoji: ':ghost:',
                 message: 'Ya\'ll suck. The build just failed with this error: %s'
+            },
+            hipchat: {
+                room: 'grunt',
+                endpoint: 'https://api.hipchat.com/v2/room/{room}/notification',
+                token: '',
+                messageFormat: 'text',
+                message: 'Ya\'ll suck. The build just failed with this error: %s',
+                notify: true
             }
         }
 
