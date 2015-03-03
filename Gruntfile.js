@@ -32,13 +32,12 @@ module.exports = function(grunt) {
         alert: {
             slack: {
                 type: 'slack',
-                level: 'fatal|warn',
                 webhookUrl: '',
                 channel: '#grunt',
                 username: 'Grunt Alert',
                 iconUrl: '',
                 iconEmoji: ':ghost:',
-                message: 'Ya\'ll suck. The build just failed with this error: {ERROR}'
+                message: 'Ya\'ll suck. The build just failed with this error: %s'
             }
         },
 
@@ -57,19 +56,17 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-    // Whenever the "test" task is run, first clean the "tmp" dir, then run this
-    // plugin's task(s), then test the result.
-    grunt.registerTask('test', ['clean', 'alert', 'nodeunit']);
+    grunt.registerTask('test', ['clean']);
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
 
     grunt.registerTask('warn', 'tests warn failure', function(){
-        grunt.warn('this task has failed with a warning');
+        grunt.warn('this task has failed with a warning. i guess you\'ll survive');
     });
 
     grunt.registerTask('fatal', 'tests fatal failure', function(){
-        grunt.fatal('this task has failed with a warning');
+        grunt.fatal('this task has failed with a fatal error. you will all die.');
     });
 
     grunt.registerTask('catchwarn', ['alert.hook', 'warn']);

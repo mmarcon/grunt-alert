@@ -8,70 +8,51 @@
 
 'use strict';
 
-var request = require('request');
+var request = require('request'),
+    util = require('util'),
+    alertSlack = require('../lib/alertslack')(request);
 
 var supportedTypes = /slack/;
 
-function alertSlack(config, grunt, done) {
-    var payload = {},
-        url = config.webhookUrl;
-
-    if(!url) {
-        grunt.log.error('Webhook URL for Slack is not set');
-        done();
-    }
-
-    if(config.iconUrl) {
-        payload.icon_url = config.iconUrl;
-    } else if(config.iconEmoji) {
-        payload.icon_emoji = config.iconEmoji;
-    }
-
-    config.message = config.message || 'Error: {ERROR}';
-    payload.text = config.message/*.replace('{ERROR}', error)*/;
-
-    if(config.channel) {
-        payload.channel = config.channel;
-    }
-
-    if(config.username) {
-        payload.username = config.username;
-    }
-
-    request({
-        url: url,
-        json: true,
-        body: payload
-    }, function(e, r, body){
-        if(e) {
-            grunt.log.error('Failed to post to slack: ' + JSON.stringify(e));
-            done();
+function spawnConfig(fail, error, errorcode) {
+    return {
+        grunt: true,
+        args: [
+            'alert',
+            util.format('--fail=%s', fail),
+            util.format('--error=%s', error),
+            util.format('--errorcode=%d', errorcode)
+        ],
+        fallback: 0,
+        opts: {
+            detached: true,
+            stdio: ['ignore', 'ignore', 'ignore']
         }
-        grunt.log.writeln(body);
-        done(body);
-    });
+    };
 }
 
 function injectAlertHook(grunt) {
-    grunt._fatal = grunt.fail.fatal;
-    grunt._warn = grunt.fail.warn;
+    var fatal = grunt.fail.fatal,
+        warn = grunt.fail.warn;
 
     grunt.log.writeln('injecting hooks');
 
     grunt.fail.fatal = grunt.fatal = function(error, errorcode){
-        grunt.option('alert.fail', 'fatal');
-        grunt.option('alert.error', error);
-        grunt.option('alert.code', errorcode);
-        grunt.task.run('alert');
-        grunt.task.run('_alert.fatal');
+        var ctx = this, child;
+
+        child = grunt.util.spawn(spawnConfig('fatal', error, errorcode || 1));
+        child.unref();
+
+        fatal.call(ctx, error, errorcode);
     };
 
     grunt.fail.warn = grunt.warn =function(error, errorcode){
-        grunt.option('alert.fail', 'warn');
-        grunt.option('alert.error', error);
-        grunt.option('alert.errorcode', errorcode);
-        grunt.task.run('alert');
-        grunt.task.run('_alert.warn');
+        var ctx = this, child;
+
+        child = grunt.util.spawn(spawnConfig('warn', error, errorcode));
+        child.unref();
+
+        warn.call(ctx, error, errorcode);
     };
 }
 
@@ -82,23 +63,11 @@ module.exports = function(grunt) {
         return;
     });
 
-    grunt.registerTask('_alert.warn', function(){
-        grunt._warn(this.option('alert.error'), this.option('alert.errorcode'));
-        return;
-    });
-
-    grunt.registerTask('_alert.fatal', function(){
-        grunt._fatal(this.option('alert.error'), this.option('alert.errorcode'));
-        return;
-    });
-
     grunt.registerMultiTask('alert', 'Sends alerts about failing builds using different channels', function() {
         // Merge task-specific and/or target-specific options with these defaults.
         var config = this.data,
             target = this.target,
             done = this.async();
-
-        console.log(config);
 
         // If type is set, we'll use that as the alerting
         // platform name. If not, we'll try to use the target
@@ -112,6 +81,10 @@ module.exports = function(grunt) {
         //    slack: {}
         // }
         config.type = config.type || target;
+
+        //Normalize message so we use the same for every platform
+        config.message = grunt.option('message') || config.message || 'Alert %s';
+        config.message = util.format(config.message, grunt.option('arg') || grunt.option('error') || '');
 
         //Now, let's check if we support that platform
         if(!supportedTypes.test(config.type)) {
