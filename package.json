@@ -1,7 +1,7 @@
 {
   "name": "grunt-alert",
   "description": "Sends alerts about failing builds using different channels",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/mmarcon/grunt-alert",
   "author": {
     "name": "Massimiliano Marcon",
@@ -42,6 +42,7 @@
     "notify",
     "alert",
     "slack",
+    "hipchat",
     "error"
   ],
   "dependencies": {
