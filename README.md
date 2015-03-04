@@ -73,6 +73,8 @@ Every platform type supports a `message` property that can include a string plac
 
 #### Slack
 
+![slack notification](https://raw.githubusercontent.com/mmarcon/grunt-alert/master/screenshots/slack.png)
+
 ```js
 alert: {
     slack: {
@@ -88,6 +90,8 @@ alert: {
 ```
 
 #### Hipchat
+
+![hipchat notification](https://raw.githubusercontent.com/mmarcon/grunt-alert/master/screenshots/hipchat.png)
 
 ```js
 alert: {
