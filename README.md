@@ -105,3 +105,20 @@ alert: {
     }
 }
 ```
+
+
+#### Twilio
+
+It is possible to send SMS notifications via Twilio. You will have to register for a Twilio account. You can start with the [free trial account](https://www.twilio.com/help/faq/twilio-basics/how-does-twilios-free-trial-work), which requires to add and verify every destination phone number.
+
+![twilio notification](https://raw.githubusercontent.com/mmarcon/grunt-alert/master/screenshots/twilio.png)
+
+```js
+twilio: {
+    to: '+498504567890',
+    from: '+11234567890',
+    message: 'Ya\'ll suck. The build just failed with this error: %s',
+    account: '',
+    token: ''
+}
+```

@@ -26,22 +26,29 @@ module.exports = function(grunt) {
 
         // Example configuration
         alert: {
-            slack: {
-                type: 'slack',
-                webhookUrl: '',
-                channel: '#grunt',
-                username: 'Grunt Alert',
-                iconUrl: '',
-                iconEmoji: ':ghost:',
-                message: 'Ya\'ll suck. The build just failed with this error: %s'
-            },
-            hipchat: {
-                room: 'grunt',
-                token: '',
-                messageFormat: 'text',
+            // slack: {
+            //     type: 'slack',
+            //     webhookUrl: '',
+            //     channel: '#grunt',
+            //     username: 'Grunt Alert',
+            //     iconUrl: '',
+            //     iconEmoji: ':ghost:',
+            //     message: 'Ya\'ll suck. The build just failed with this error: %s'
+            // },
+            // hipchat: {
+            //     room: 'grunt',
+            //     token: '',
+            //     messageFormat: 'text',
+            //     message: 'Ya\'ll suck. The build just failed with this error: %s',
+            //     notify: true,
+            //     color: 'red'
+            // },
+            twilio: {
+                to: '+4915155155076',
+                from: '+15202241142',
                 message: 'Ya\'ll suck. The build just failed with this error: %s',
-                notify: true,
-                color: 'red'
+                account: 'AC918ff2745c7e1a9abce3f62b5c0743de',
+                token: '9ccc53ec343eee8f36e716e55e22bd77'
             }
         }
 

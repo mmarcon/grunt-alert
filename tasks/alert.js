@@ -15,6 +15,7 @@ var alertProviders = {};
 
 alertProviders.slack = require('../lib/alertslack')(request);
 alertProviders.hipchat = require('../lib/alerthipchat')(request);
+alertProviders.twilio = require('../lib/alerttwilio')(request);
 
 function spawnConfig(fail, error, errorcode) {
     return {
