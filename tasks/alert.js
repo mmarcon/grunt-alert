@@ -14,6 +14,7 @@ var request = require('request'),
 var alertProviders = {};
 
 alertProviders.slack = require('../lib/alertslack')(request);
+alertProviders.hipchat = require('../lib/alerthipchat')(request);
 
 function spawnConfig(fail, error, errorcode) {
     return {
@@ -27,7 +28,7 @@ function spawnConfig(fail, error, errorcode) {
         fallback: 0,
         opts: {
             detached: true,
-            stdio: [0, 1, 2]
+            stdio: ['ignore', 'ignore', 'ignore'] //[0, 1, 2] seems to not work with node 0.12.0 unfortunately
         }
     };
 }
