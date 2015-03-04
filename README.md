@@ -86,3 +86,18 @@ alert: {
     }
 }
 ```
+
+#### Hipchat
+
+```js
+alert: {
+    hipchat: {
+        room: 'grunt',
+        token: '', //A token with send_notification scope for the room
+        messageFormat: 'text', //Default is html as per API spec
+        message: 'Ya\'ll suck. The build just failed with this error: %s',
+        notify: true, //Default is false as per API spec
+        color: 'red' //Default is yellow as per API spec. Valid values are yellow, green, red, purple, gray, random.
+    }
+}
+```
