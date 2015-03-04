@@ -50,6 +50,10 @@ module.exports = function(grunt) {
                 account: '',
                 token: ''
             }
+        },
+
+        test: {
+            alert: ['./tests/*_test.js']
         }
 
     });
@@ -60,11 +64,11 @@ module.exports = function(grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('test', 'runs tests with tape', function(){
+    grunt.registerMultiTask('test', 'runs tests with tape', function(){
         var done = this.async();
         var runner = grunt.util.spawn({
             cmd: './node_modules/.bin/tape',
-            args: ['./tests/*_test.js']
+            args: this.filesSrc
         }, function(error, result, code){
             done(code === 0);
         });
