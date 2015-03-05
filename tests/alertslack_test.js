@@ -1,7 +1,7 @@
 var test = require('tape'),
     sinon = require('sinon');
 
-var alertSlackBuilder = require('../lib/alertslack')
+var alertSlackBuilder = require('../lib/alertslack');
 
 test('alert slack: missing Webhook URL', function(t){
     t.plan(3);

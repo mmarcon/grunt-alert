@@ -52,7 +52,7 @@ module.exports = function(grunt) {
             }
         },
 
-        test: {
+        tape: {
             alert: ['./tests/*_test.js']
         }
 
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerMultiTask('test', 'runs tests with tape', function(){
+    grunt.registerMultiTask('tape', 'runs tests with tape', function(){
         var done = this.async();
         var runner = grunt.util.spawn({
             cmd: './node_modules/.bin/tape',
@@ -77,8 +77,11 @@ module.exports = function(grunt) {
         runner.stdout.pipe(require('faucet')()).pipe(process.stdout, { end: false });
     });
 
+    grunt.registerTask('test', ['jshint', 'tape']);
+
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
+
 
     grunt.registerTask('warn', 'tests warn failure', function(){
         grunt.warn('this task has failed with a warning. i guess you\'ll survive');
