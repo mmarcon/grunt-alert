@@ -18,7 +18,7 @@ test('alert slack: missing Webhook URL', function(t){
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert slack: no optional options (success + error)', function(t){
@@ -51,12 +51,12 @@ test('alert slack: no optional options (success + error)', function(t){
     var requestCallbackFn = request.lastCall.args[1];
 
     requestCallbackFn(null, {}, null);
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 
     callback.reset();
     requestCallbackFn(new Error('foo'), {}, null);
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert slack: with icon', function(t){

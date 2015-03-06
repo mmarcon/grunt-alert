@@ -18,7 +18,7 @@ test('alert twilio: missing token and account', function(t){
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert twilio: missing token', function(t){
@@ -36,7 +36,7 @@ test('alert twilio: missing token', function(t){
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert twilio: missing account', function(t){
@@ -54,7 +54,7 @@ test('alert twilio: missing account', function(t){
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert twilio: missing from and to', function(t){
@@ -72,7 +72,7 @@ test('alert twilio: missing from and to', function(t){
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert twilio: missing from', function(t){
@@ -90,7 +90,7 @@ test('alert twilio: missing from', function(t){
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert twilio: missing to', function(t){
@@ -108,7 +108,7 @@ test('alert twilio: missing to', function(t){
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
 
 test('alert twilio: success + error', function(t){
@@ -150,10 +150,10 @@ test('alert twilio: success + error', function(t){
     var requestCallbackFn = request.lastCall.args[1];
 
     requestCallbackFn(null, {}, null);
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 
     callback.reset();
     requestCallbackFn(new Error('foo'), {}, null);
     t.true(grunt.log.error.called, 'Error logged');
-    t.true(callback.called, 'Callback clled');
+    t.true(callback.called, 'Callback called');
 });
