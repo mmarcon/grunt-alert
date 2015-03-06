@@ -2,7 +2,7 @@
 
 > Sends alerts about failing builds using different channels
 
-![build status](https://api.travis-ci.org/mmarcon/grunt-alert.svg)
+[![Build Status](https://travis-ci.org/mmarcon/grunt-alert.svg?branch=master)](https://travis-ci.org/mmarcon/grunt-alert)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
