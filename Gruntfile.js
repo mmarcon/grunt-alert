@@ -33,7 +33,8 @@ module.exports = function(grunt) {
                 username: 'Grunt Alert',
                 iconUrl: '',
                 iconEmoji: ':ghost:',
-                message: 'Ya\'ll suck. The build just failed with this error: %s'
+                message: 'Ya\'ll suck. The build just failed with this error: %s',
+                log: './slack.log'
             },
             hipchat: {
                 room: 'grunt',

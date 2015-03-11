@@ -9,7 +9,8 @@
 'use strict';
 
 var request = require('request'),
-    util = require('util');
+    util = require('util'),
+    filelogger = require('../lib/filelogger');
 
 var alertProviders = {};
 
@@ -70,7 +71,8 @@ module.exports = function(grunt) {
         // Merge task-specific and/or target-specific options with these defaults.
         var config = this.data,
             target = this.target,
-            done = this.async();
+            done = this.async(),
+            logger = filelogger(config.log);
 
         // If type is set, we'll use that as the alerting
         // platform name. If not, we'll try to use the target
@@ -95,7 +97,7 @@ module.exports = function(grunt) {
             return done();
         }
 
-        alertProviders[config.type](config, grunt, done);
+        alertProviders[config.type](config, grunt, done, logger);
     });
 
 };

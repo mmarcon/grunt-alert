@@ -10,11 +10,15 @@ test('alert slack: missing Webhook URL', function(t){
     var alertSlack = alertSlackBuilder(request);
 
     var config = {};
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertSlack(config, grunt, callback);
+    alertSlack(config, grunt, callback, logger);
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
@@ -31,11 +35,15 @@ test('alert slack: no optional options (success + error)', function(t){
         webhookUrl: 'https://slack.com/123/456',
         message: 'Boo'
     };
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertSlack(config, grunt, callback);
+    alertSlack(config, grunt, callback, logger);
 
     t.true(request.called, 'Request has been made');
 
@@ -70,11 +78,15 @@ test('alert slack: with icon', function(t){
         message: 'Boo',
         iconUrl: 'https://placekitten.com/g/200/300'
     };
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertSlack(config, grunt, callback);
+    alertSlack(config, grunt, callback, logger);
 
     t.true(request.called, 'Request has been made');
 
@@ -100,11 +112,15 @@ test('alert slack: with emoji', function(t){
         message: 'Boo',
         iconEmoji: ':beer:'
     };
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertSlack(config, grunt, callback);
+    alertSlack(config, grunt, callback, logger);
 
     t.true(request.called, 'Request has been made');
 
@@ -130,11 +146,15 @@ test('alert slack: post to channel', function(t){
         message: 'Boo',
         channel: '#gruntalert'
     };
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertSlack(config, grunt, callback);
+    alertSlack(config, grunt, callback, logger);
 
     t.true(request.called, 'Request has been made');
 
@@ -160,11 +180,15 @@ test('alert slack: post with username', function(t){
         message: 'Boo',
         username: 'Grunt Alert'
     };
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertSlack(config, grunt, callback);
+    alertSlack(config, grunt, callback, logger);
 
     t.true(request.called, 'Request has been made');
 
@@ -193,11 +217,15 @@ test('alert slack: with all options (emoji ignored since icon is set)', function
         channel: '#gruntalert',
         username: 'Grunt Alert'
     };
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertSlack(config, grunt, callback);
+    alertSlack(config, grunt, callback, logger);
 
     t.true(request.called, 'Request has been made');
 

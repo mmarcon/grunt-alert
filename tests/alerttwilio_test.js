@@ -10,11 +10,15 @@ test('alert twilio: missing token and account', function(t){
     var alertTwilio = alertTwilioBuilder(request);
 
     var config = {};
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertTwilio(config, grunt, callback);
+    alertTwilio(config, grunt, callback, logger);
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
@@ -28,11 +32,15 @@ test('alert twilio: missing token', function(t){
     var alertTwilio = alertTwilioBuilder(request);
 
     var config = {account: 'abc'};
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertTwilio(config, grunt, callback);
+    alertTwilio(config, grunt, callback, logger);
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
@@ -46,11 +54,15 @@ test('alert twilio: missing account', function(t){
     var alertTwilio = alertTwilioBuilder(request);
 
     var config = {token: '123'};
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertTwilio(config, grunt, callback);
+    alertTwilio(config, grunt, callback, logger);
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
@@ -64,11 +76,15 @@ test('alert twilio: missing from and to', function(t){
     var alertTwilio = alertTwilioBuilder(request);
 
     var config = {token: '123', account: 'abc'};
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertTwilio(config, grunt, callback);
+    alertTwilio(config, grunt, callback, logger);
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
@@ -82,11 +98,15 @@ test('alert twilio: missing from', function(t){
     var alertTwilio = alertTwilioBuilder(request);
 
     var config = {token: '123', account: 'abc', to: '+49123456'};
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertTwilio(config, grunt, callback);
+    alertTwilio(config, grunt, callback, logger);
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
@@ -100,11 +120,15 @@ test('alert twilio: missing to', function(t){
     var alertTwilio = alertTwilioBuilder(request);
 
     var config = {token: '123', account: 'abc', from: '+1123456'};
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertTwilio(config, grunt, callback);
+    alertTwilio(config, grunt, callback, logger);
 
     t.false(request.called, 'Request has not been made');
     t.true(grunt.log.error.called, 'Error logged');
@@ -124,11 +148,15 @@ test('alert twilio: success + error', function(t){
         to: '+49123456',
         message: 'Boo'
     };
+    var logger = {
+        error: sinon.spy(),
+        log: sinon.spy()
+    };
     var grunt = { log: { error: sinon.spy() } };
     var callback = sinon.spy();
 
 
-    alertTwilio(config, grunt, callback);
+    alertTwilio(config, grunt, callback, logger);
 
     t.true(request.called, 'Request has been made');
 
