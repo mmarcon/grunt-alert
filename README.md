@@ -38,6 +38,51 @@ grunt.registerTask('fatal', 'tests fatal failure', function(){
 grunt.registerTask('catchfatal', ['alert.hook', 'fatal']);
 ```
 
+## The "alert.event.hook" task
+
+Can be used as a dependency for other tasks. The `alert.event.hook` task patches the `grunt.warn` and `grunt.fatal` functions to emit events via `grunt.event` when a task triggers an error.
+
+`grunt-alert` triggers only one event, the `alert` event. Arguments are:
+
+ * `type`: can be `warn` or `fatal`
+ * `error`: the error message logged by the failing task
+ * `errorcode`: the error code logged by the failing task
+
+### Example
+
+```js
+grunt.registerTask('useemitter', 'tests fatal failure', function(){
+    grunt.log.writeln('Registering event handlers');
+    grunt.event.on('alert', function(type, error, errorcode){
+        console.log(arguments);
+    });
+});
+
+grunt.registerTask('warn', 'tests warn failure', function(){
+    grunt.warn('this task has failed with a warning. i guess you\'ll survive');
+});
+
+grunt.registerTask('warnevent', ['alert.event.hook', 'useemitter', 'warn']);
+```
+
+The result is the following:
+
+```
+➜ grunt warnevent
+
+Running "alert.event.hook" task
+injecting emitter hooks
+
+Running "useemitter" task
+Registering event handlers
+
+Running "warn" task
+{ '0': 'warn',
+  '1': 'this task has failed with a warning. i guess you\'ll survive',
+  '2': 1 }
+Warning: this task has failed with a warning. i guess you'll survive Use --force to continue.
+```
+
 ## The "alert" task
 
 Triggers an alert using the configured platforms.

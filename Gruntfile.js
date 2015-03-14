@@ -92,6 +92,16 @@ module.exports = function(grunt) {
         grunt.fatal('this task has failed with a fatal error. you will all die.');
     });
 
+    grunt.registerTask('useemitter', 'tests fatal failure', function(){
+        grunt.log.writeln('Registering event handlers');
+        grunt.event.on('alert', function(type, error, errorcode){
+            console.log(arguments);
+        });
+    });
+
     grunt.registerTask('catchwarn', ['alert.hook', 'warn']);
     grunt.registerTask('catchfatal', ['alert.hook', 'fatal']);
+
+    grunt.registerTask('fatalevent', ['alert.event.hook', 'useemitter', 'fatal']);
+    grunt.registerTask('warnevent', ['alert.event.hook', 'useemitter', 'warn']);
 };

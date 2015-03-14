@@ -60,10 +60,38 @@ function injectAlertHook(grunt) {
     };
 }
 
+function injectAlertEmitterHook(grunt) {
+    var fatal = grunt.fail.fatal,
+        warn = grunt.fail.warn;
+
+    grunt.log.writeln('injecting emitter hooks');
+
+    grunt.fail.fatal = grunt.fatal = function(error, errorcode){
+        var ctx = this, child;
+
+        grunt.event.emit('alert', 'fatal', error, errorcode || 1);
+
+        fatal.call(ctx, error, errorcode);
+    };
+
+    grunt.fail.warn = grunt.warn = function(error, errorcode){
+        var ctx = this, child;
+
+        grunt.event.emit('alert', 'warn', error, errorcode || 1);
+
+        warn.call(ctx, error, errorcode);
+    };
+}
+
 module.exports = function(grunt) {
 
     grunt.registerTask('alert.hook', function(){
         injectAlertHook(grunt);
+        return;
+    });
+
+    grunt.registerTask('alert.event.hook', function(){
+        injectAlertEmitterHook(grunt);
         return;
     });
 
