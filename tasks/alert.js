@@ -39,6 +39,11 @@ function injectAlertHook(grunt) {
     var fatal = grunt.fail.fatal,
         warn = grunt.fail.warn;
 
+    if(grunt.fail._alertHook) {
+        //Already patched, nothing to do
+        return;
+    }
+
     grunt.log.writeln('injecting hooks');
 
     grunt.fail.fatal = grunt.fatal = function(error, errorcode){
@@ -58,11 +63,18 @@ function injectAlertHook(grunt) {
 
         warn.call(ctx, error, errorcode);
     };
+
+    grunt.fail._alertHook = true;
 }
 
 function injectAlertEmitterHook(grunt) {
     var fatal = grunt.fail.fatal,
         warn = grunt.fail.warn;
+
+    if(grunt.fail._alertEmitterHook) {
+        //Already patched, nothing to do
+        return;
+    }
 
     grunt.log.writeln('injecting emitter hooks');
 
@@ -81,6 +93,8 @@ function injectAlertEmitterHook(grunt) {
 
         warn.call(ctx, error, errorcode);
     };
+
+    grunt.fail._alertEmitterHook = true;
 }
 
 module.exports = function(grunt) {
