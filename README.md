@@ -178,3 +178,15 @@ twilio: {
     log: 'somefile.log' //optional
 }
 ```
+
+### Continuos Integration
+
+`grunt-alert` is especially useful when used with a continuos integration (CI)setup. If something goes wrong with the build your CI server can use `grunt-alert` to notify you using your favorite platforms.
+
+#### Jenkins
+
+Jenkins has a feature called [ProcessTreeKiller](https://wiki.jenkins-ci.org/display/JENKINS/ProcessTreeKiller). This is slightly problematic as the alert hook spawns the alert task as a detouched process, which will be killed by Jenkins as soon as the main build process ends. To prevent this from happening and ensure that your notifications go through, when you configure your build make sure that you change the `BUILD_ID` environment variable (e.g. `BUILD_ID=dontKillMe`).
+
+Below is an example of Jenkins configuration for an [example project](https://github.com/mmarcon/grunt-alert-example).
+
+![jenkins configuration](https://raw.githubusercontent.com/mmarcon/grunt-alert/master/screenshots/jenkins.png)
