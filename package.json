@@ -1,7 +1,7 @@
 {
   "name": "grunt-alert",
   "description": "Sends alerts about failing builds using different channels",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage": "https://github.com/mmarcon/grunt-alert",
   "author": {
     "name": "Massimiliano Marcon",
